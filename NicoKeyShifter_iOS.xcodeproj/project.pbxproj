@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E4B23B492DCFAEFB004EC5FA /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = E4B23B482DCFAEFB004EC5FA /* Factory */; };
+		E4B23B4B2DCFAEFB004EC5FA /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = E4B23B4A2DCFAEFB004EC5FA /* FactoryTesting */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E45B05682DCA24B200390C39 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4B23B492DCFAEFB004EC5FA /* Factory in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4B23B4B2DCFAEFB004EC5FA /* FactoryTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +119,7 @@
 			);
 			name = NicoKeyShifter_iOS;
 			packageProductDependencies = (
+				E4B23B482DCFAEFB004EC5FA /* Factory */,
 			);
 			productName = NicoKeyShifter_iOS;
 			productReference = E45B05552DCA24AD00390C39 /* NicoKeyShifter_iOS.app */;
@@ -135,6 +143,7 @@
 			);
 			name = NicoKeyShifter_iOSTests;
 			packageProductDependencies = (
+				E4B23B4A2DCFAEFB004EC5FA /* FactoryTesting */,
 			);
 			productName = NicoKeyShifter_iOSTests;
 			productReference = E45B05672DCA24B200390C39 /* NicoKeyShifter_iOSTests.xctest */;
@@ -195,6 +204,9 @@
 			);
 			mainGroup = E45B054C2DCA24AD00390C39;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E4B23B472DCFAEFB004EC5FA /* XCRemoteSwiftPackageReference "Factory" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E45B05562DCA24AD00390C39 /* Products */;
 			projectDirPath = "";
@@ -552,6 +564,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E4B23B472DCFAEFB004EC5FA /* XCRemoteSwiftPackageReference "Factory" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Factory";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E4B23B482DCFAEFB004EC5FA /* Factory */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4B23B472DCFAEFB004EC5FA /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = Factory;
+		};
+		E4B23B4A2DCFAEFB004EC5FA /* FactoryTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4B23B472DCFAEFB004EC5FA /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = FactoryTesting;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E45B054D2DCA24AD00390C39 /* Project object */;
 }
