@@ -10,8 +10,13 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @StateObject private var viewModel: ItemListViewModel
     @Query private var items: [Item]
 
+    public init() {
+        self._viewModel = StateObject(wrappedValue: ItemListViewModel())
+    }
+    
     var body: some View {
         NavigationSplitView {
             List {
@@ -41,8 +46,7 @@ struct ContentView: View {
 
     private func addItem() {
         withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
+            viewModel.addItem()
         }
     }
 
