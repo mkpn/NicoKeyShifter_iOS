@@ -3,7 +3,7 @@ import Factory
 import SwiftData
 
 public extension Container {
-    var itemDao: Factory<ItemDataSource & Sendable> {
+    var itemDataSource: Factory<ItemDataSource & Sendable> {
         self {
             ItemDataSourceImpl()
         }
@@ -11,10 +11,10 @@ public extension Container {
 }
 
 public protocol ItemDataSource {
-    func getAll() async throws -> [Item]
-    func add(_ item: Item) async throws
-    func delete(_ item: Item) async throws
-    func deleteAll() async throws
+    func getAll() async -> [Item]
+    func add(_ item: Item) async
+    func delete(_ item: Item) async
+    func deleteAll() async
 }
 
 @ModelActor
@@ -32,24 +32,40 @@ public actor ItemDataSourceImpl: ItemDataSource {
         }
     }
     
-    public func getAll() async throws -> [Item] {
+    public func getAll() async -> [Item] {
         let descriptor = FetchDescriptor<Item>()
-        return try modelContext.fetch(descriptor)
+        do {
+            return try modelContext.fetch(descriptor)
+        } catch {
+            fatalError("\(error)")
+        }
     }
     
-    public func add(_ item: Item) async throws {
+    public func add(_ item: Item) async {
         modelContext.insert(item)
-        try modelContext.save()
+        do {
+            try modelContext.save()
+        } catch {
+            fatalError("\(error)")
+        }
     }
     
-    public func delete(_ item: Item) async throws {
+    public func delete(_ item: Item) async {
         modelContext.delete(item)
-        try modelContext.save()
+        do {
+            try modelContext.save()
+        } catch {
+            fatalError("\(error)")
+        }
     }
     
-    public func deleteAll() async throws {
-        let items = try await getAll()
-        items.forEach { modelContext.delete($0) }
-        try modelContext.save()
+    public func deleteAll() async {
+        do {
+            let items = try await getAll()
+            items.forEach { modelContext.delete($0) }
+            try modelContext.save()
+        } catch {
+            fatalError("\(error)")
+        }
     }
 } 
