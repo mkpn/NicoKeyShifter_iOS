@@ -23,19 +23,6 @@ public protocol SearchDataSource {
 
 class SearchDataSourceImpl: SearchDataSource {
     private let baseURL = "https://snapshot.search.nicovideo.jp/api/v2/snapshot/video/contents/search"
-//    https://snapshot.search.nicovideo.jp/api/v2/snapshot/video/contents/search?
-//    q=shooting%20star
-//    &targets=title
-//    &fields=contentId%2Ctitle%2CviewCounter%2CthumbnailUrl
-//    &_sort=-viewCounter
-//    &_limit=100
-//    
-//    https://snapshot.search.nicovideo.jp/api/v2/snapshot/video/contents/search?
-//    _limit=100
-//    &_sort=-viewCounter
-//    &fields=contentId%2Ctitle%2Cdescription%2CviewCount%2CmylistCount%2CcommentCount%2CstartTime%2CthumbnailUrl
-//    &q=Balalaika
-//    &targets=title
 
     // 一貫した User-Agent 設定（Safari/iOS風）
     private let headers: HTTPHeaders = [
