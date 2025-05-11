@@ -12,5 +12,7 @@ extension Container: @retroactive AutoRegistering {
         // [Question] これってちゃんと意味がある登録処理なのかな... repositoryだけで良かったりしないだろうか
         Container.shared.itemDataSource.register { ItemDataSourceImpl() }
         Container.shared.itemRepository.register { ItemRepositoryImpl() }
+        
+        Container.shared.searchVideoUseCase.register { SearchVideoUseCaseImpl(searchRepository: self.searchRepository()) }
     }
 }
