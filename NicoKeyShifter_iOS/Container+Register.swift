@@ -14,3 +14,11 @@ extension Container: @retroactive AutoRegistering {
         Container.shared.itemRepository.register { ItemRepositoryImpl() }
     }
 }
+
+// Search registrations
+extension Container {
+    func registerSearchDependencies() {
+        Container.shared.searchDataSource.register { SearchDataSourceImpl() }
+        Container.shared.searchRepository.register { SearchRepositoryImpl() }
+    }
+}

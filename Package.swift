@@ -12,13 +12,15 @@ let package = Package(
             targets: ["NicoKeyShifter_iOS"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.8.1"),
         .package(url: "https://github.com/hmlongco/Factory.git", from: "2.4.3")
     ],
     targets: [
         .target(
             name: "NicoKeyShifter_iOS",
             dependencies: [
-                .product(name: "Factory", package: "Factory")
+                .product(name: "Factory", package: "Factory"),
+                .product(name: "Alamofire", package: "Alamofire")
             ]),
         .testTarget(
             name: "NicoKeyShifter_iOSTests",
@@ -27,4 +29,4 @@ let package = Package(
                 .product(name: "FactoryTesting", package: "Factory")
             ]),
     ]
-) 
+)
