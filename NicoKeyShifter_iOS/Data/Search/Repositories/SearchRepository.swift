@@ -10,7 +10,7 @@ public extension Container {
 }
 
 public protocol SearchRepository {
-    func search(query: String) async throws -> SearchResponse
+    func search(query: String, targets: String, sort: String, limit: Int) async throws -> SearchResponse
 }
 
 public final class SearchRepositoryImpl: SearchRepository {
@@ -20,7 +20,7 @@ public final class SearchRepositoryImpl: SearchRepository {
         self.dataSource = dataSource
     }
     
-    public func search(query: String) async throws -> SearchResponse {
-        try await dataSource.search(query: query)
+    public func search(query: String, targets: String = "title", sort: String = "-viewCounter", limit: Int = 100) async throws -> SearchResponse {
+        try await dataSource.search(query: query, targets: targets, sort: sort, limit: limit)
     }
-} 
+}  
