@@ -25,7 +25,7 @@ struct NicoKeyShifter_iOSApp: App {
 
     var body: some Scene {
         WindowGroup {
-            SearchView()
+            MainTabView()
         }
         .modelContainer(sharedModelContainer)
     }
