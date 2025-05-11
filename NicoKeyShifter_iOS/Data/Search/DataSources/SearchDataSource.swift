@@ -22,25 +22,48 @@ public protocol SearchDataSource {
 }
 
 class SearchDataSourceImpl: SearchDataSource {
-    private let baseURL = "https://api.search.nicovideo.jp/api/v2/video/contents/search"
-    
+    private let baseURL = "https://snapshot.search.nicovideo.jp/api/v2/snapshot/video/contents/search"
+//    https://snapshot.search.nicovideo.jp/api/v2/snapshot/video/contents/search?
+//    q=shooting%20star
+//    &targets=title
+//    &fields=contentId%2Ctitle%2CviewCounter%2CthumbnailUrl
+//    &_sort=-viewCounter
+//    &_limit=100
+//    
+//    https://snapshot.search.nicovideo.jp/api/v2/snapshot/video/contents/search?
+//    _limit=100
+//    &_sort=-viewCounter
+//    &fields=contentId%2Ctitle%2Cdescription%2CviewCount%2CmylistCount%2CcommentCount%2CstartTime%2CthumbnailUrl
+//    &q=Balalaika
+//    &targets=title
+
+    // 一貫した User-Agent 設定（Safari/iOS風）
+    private let headers: HTTPHeaders = [
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+    ]
+
     func search(query: String, targets: String = "title", sort: String = "-viewCounter", limit: Int = 100) async throws -> SearchResponse {
         let parameters: [String: Any] = [
             "q": query,
             "targets": targets,
-            "fields": "contentId,title,description,viewCount,mylistCount,commentCount,startTime,thumbnailUrl",
+            "fields": "contentId,title,viewCounter,thumbnailUrl",
             "_sort": sort,
             "_limit": limit
         ]
         
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(baseURL, parameters: parameters)
+            AF.request(baseURL, parameters: parameters, headers: headers)
                 .validate()
+                .cURLDescription { description in
+                    print("📡 cURL:\n\(description)")
+                }
                 .responseDecodable(of: SearchResponse.self) { response in
                     switch response.result {
-                    case .success(let searchResponse):
-                        continuation.resume(returning: searchResponse)
+                    case .success(let responseValue):
+                        print("✅ Success: \(responseValue)")
+                        continuation.resume(returning: responseValue)
                     case .failure(let error):
+                        print("❌ Error: \(error)")
                         continuation.resume(throwing: error)
                     }
                 }
