@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		E4B23B492DCFAEFB004EC5FA /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = E4B23B482DCFAEFB004EC5FA /* Factory */; };
 		E4B23B4B2DCFAEFB004EC5FA /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = E4B23B4A2DCFAEFB004EC5FA /* FactoryTesting */; };
-		E4B23C012DD0A43B004EC5FA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E4B23C002DD0A43B004EC5FA /* Alamofire */; };
+		E4B23C582DD0B864004EC5FA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E4B23C572DD0B864004EC5FA /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +59,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B23B492DCFAEFB004EC5FA /* Factory in Frameworks */,
-				E4B23C012DD0A43B004EC5FA /* Alamofire in Frameworks */,
+				E4B23C582DD0B864004EC5FA /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,7 +122,7 @@
 			name = NicoKeyShifter_iOS;
 			packageProductDependencies = (
 				E4B23B482DCFAEFB004EC5FA /* Factory */,
-				E4B23C002DD0A43B004EC5FA /* Alamofire */,
+				E4B23C572DD0B864004EC5FA /* Alamofire */,
 			);
 			productName = NicoKeyShifter_iOS;
 			productReference = E45B05552DCA24AD00390C39 /* NicoKeyShifter_iOS.app */;
@@ -209,7 +209,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				E4B23B472DCFAEFB004EC5FA /* XCRemoteSwiftPackageReference "Factory" */,
-				E4B23BFF2DD0A43B004EC5FA /* XCRemoteSwiftPackageReference "Alamofire" */,
+				E4B23C562DD0B864004EC5FA /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E45B05562DCA24AD00390C39 /* Products */;
@@ -578,7 +578,7 @@
 				minimumVersion = 2.4.3;
 			};
 		};
-		E4B23BFF2DD0A43B004EC5FA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		E4B23C562DD0B864004EC5FA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
 			requirement = {
@@ -599,9 +599,9 @@
 			package = E4B23B472DCFAEFB004EC5FA /* XCRemoteSwiftPackageReference "Factory" */;
 			productName = FactoryTesting;
 		};
-		E4B23C002DD0A43B004EC5FA /* Alamofire */ = {
+		E4B23C572DD0B864004EC5FA /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E4B23BFF2DD0A43B004EC5FA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = E4B23C562DD0B864004EC5FA /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
