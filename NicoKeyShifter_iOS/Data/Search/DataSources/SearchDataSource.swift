@@ -18,19 +18,19 @@ public extension Container {
 }
 
 public protocol SearchDataSource {
-    func search(query: String) async throws -> SearchResponse
+    func search(query: String, targets: String, sort: String, limit: Int) async throws -> SearchResponse
 }
 
 class SearchDataSourceImpl: SearchDataSource {
     private let baseURL = "https://api.search.nicovideo.jp/api/v2/video/contents/search"
     
-    func search(query: String) async throws -> SearchResponse {
+    func search(query: String, targets: String = "title", sort: String = "-viewCounter", limit: Int = 100) async throws -> SearchResponse {
         let parameters: [String: Any] = [
             "q": query,
-            "targets": "title,description,tags",
+            "targets": targets,
             "fields": "contentId,title,description,viewCount,mylistCount,commentCount,startTime,thumbnailUrl",
-            "_sort": "-viewCount",
-            "_limit": 20
+            "_sort": sort,
+            "_limit": limit
         ]
         
         return try await withCheckedThrowingContinuation { continuation in
