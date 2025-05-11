@@ -3,7 +3,6 @@
 //
 
 import SwiftUI
-import Domain
 
 struct VideoItemRowComponent: View {
     let video: VideoDomainModel

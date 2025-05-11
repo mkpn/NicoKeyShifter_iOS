@@ -4,8 +4,6 @@
 
 import Foundation
 
-import Domain
-
 public struct SearchVideoUiState {
     public let isLoading: Bool
     public let query: String

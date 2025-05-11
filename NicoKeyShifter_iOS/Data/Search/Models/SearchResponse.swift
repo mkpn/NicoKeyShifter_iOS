@@ -14,7 +14,7 @@ public struct SearchResponse: Codable {
         }
     }
     
-    struct Video: Codable {
+    public struct Video: Codable {
         let contentId: String
         let title: String
         let description: String

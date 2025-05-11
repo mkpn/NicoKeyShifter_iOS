@@ -4,7 +4,6 @@
 
 import SwiftUI
 import Factory
-import Domain
 
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
