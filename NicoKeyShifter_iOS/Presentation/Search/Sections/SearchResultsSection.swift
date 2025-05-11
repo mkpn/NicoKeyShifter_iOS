@@ -3,6 +3,7 @@
 //
 
 import SwiftUI
+import Domain
 
 struct SearchResultsSection: View {
     let uiState: SearchVideoUiState
