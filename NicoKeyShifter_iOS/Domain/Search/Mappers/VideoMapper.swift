@@ -9,7 +9,7 @@ public enum VideoMapper {
         return VideoDomainModel(
             id: video.contentId,
             title: video.title,
-            viewCount: video.viewCount,
+            viewCount: video.viewCounter,
             thumbnailUrl: video.thumbnailUrl
         )
     }
