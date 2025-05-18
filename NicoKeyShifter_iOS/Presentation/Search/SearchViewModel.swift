@@ -5,7 +5,6 @@
 import Foundation
 import Factory
 import SwiftUI
-import Domain
 
 @MainActor
 public class SearchViewModel: ObservableObject {

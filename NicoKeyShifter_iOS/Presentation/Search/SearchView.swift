@@ -77,7 +77,7 @@ struct SearchView: View {
                     viewModel.updateNotificationPermissionRequested()
                 }
             } message: {
-                Text("新しい動画の通知を受け取るには通知を許可してください。")
+                Text("このアプリは新着情報を通知でお知らせします。受け取るために通知の受信を許可してください。")
             }
         }
     }
