@@ -14,5 +14,11 @@ extension Container: @retroactive AutoRegistering {
         Container.shared.itemRepository.register { ItemRepositoryImpl() }
         
         Container.shared.searchVideoUseCase.register { SearchVideoUseCaseImpl(searchRepository: self.searchRepository()) }
+        
+        Container.shared.notificationPermissionDao.register { NotificationPermissionDaoImpl() }
+        Container.shared.notificationPermissionRepository.register { NotificationPermissionRepositoryImpl(notificationPermissionDao: self.notificationPermissionDao()) }
+        Container.shared.checkNotificationPermissionUseCase.register { CheckNotificationPermissionUseCaseImpl(notificationPermissionRepository: self.notificationPermissionRepository()) }
+        Container.shared.checkNotificationPermissionRequestedUseCase.register { CheckNotificationPermissionRequestedUseCaseImpl(notificationPermissionRepository: self.notificationPermissionRepository()) }
+        Container.shared.updateNotificationPermissionRequestedUseCase.register { UpdateNotificationPermissionRequestedUseCaseImpl(notificationPermissionRepository: self.notificationPermissionRepository()) }
     }
 }
