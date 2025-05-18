@@ -4,10 +4,12 @@
 
 import SwiftUI
 import Factory
+import UserNotifications
 
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
     @State private var searchQuery = ""
+    @State private var isShowingNotificationPermissionAlert = false
     
     var body: some View {
         NavigationView {
@@ -59,6 +61,32 @@ struct SearchView: View {
                 Spacer()
             }
             .navigationTitle("動画検索")
+            .onAppear {
+                if viewModel.uiState.showNotificationPermissionDialog {
+                    isShowingNotificationPermissionAlert = true
+                }
+            }
+            .onChange(of: viewModel.uiState.showNotificationPermissionDialog) { newValue in
+                isShowingNotificationPermissionAlert = newValue
+            }
+            .alert("通知の許可", isPresented: $isShowingNotificationPermissionAlert) {
+                Button("許可する") {
+                    requestNotificationPermission()
+                }
+                Button("後で") {
+                    viewModel.updateNotificationPermissionRequested()
+                }
+            } message: {
+                Text("新しい動画の通知を受け取るには通知を許可してください。")
+            }
+        }
+    }
+    
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            DispatchQueue.main.async {
+                viewModel.updateNotificationPermissionRequested()
+            }
         }
     }
 }

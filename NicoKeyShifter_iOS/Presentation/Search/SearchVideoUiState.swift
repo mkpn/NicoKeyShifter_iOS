@@ -9,17 +9,20 @@ public struct SearchVideoUiState {
     public let query: String
     public let videos: [VideoDomainModel]
     public let errorMessage: String?
+    public let showNotificationPermissionDialog: Bool
     
     public init(
         isLoading: Bool = false,
         query: String = "",
         videos: [VideoDomainModel] = [],
-        errorMessage: String? = nil
+        errorMessage: String? = nil,
+        showNotificationPermissionDialog: Bool = false
     ) {
         self.isLoading = isLoading
         self.query = query
         self.videos = videos
         self.errorMessage = errorMessage
+        self.showNotificationPermissionDialog = showNotificationPermissionDialog
     }
     
     public var isEmpty: Bool {
@@ -42,7 +45,8 @@ public struct SearchVideoUiState {
         SearchVideoUiState(
             isLoading: false,
             videos: [VideoDomainModel.ofDefault()],
-            errorMessage: nil
+            errorMessage: nil,
+            showNotificationPermissionDialog: false
         )
     }
 }

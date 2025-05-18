@@ -5,14 +5,31 @@
 import Foundation
 import Factory
 import SwiftUI
+import Domain
 
 @MainActor
 public class SearchViewModel: ObservableObject {
     @Injected(\.searchVideoUseCase) private var searchVideoUseCase
+    @Injected(\.checkNotificationPermissionRequestedUseCase) private var checkNotificationPermissionRequestedUseCase
+    @Injected(\.updateNotificationPermissionRequestedUseCase) private var updateNotificationPermissionRequestedUseCase
     
     @Published private(set) var uiState = SearchVideoUiState()
     
-    public init() {}
+    public init() {
+        Task {
+            let isNotificationPermissionRequested = checkNotificationPermissionRequestedUseCase.invoke()
+            
+            if !isNotificationPermissionRequested {
+                uiState = SearchVideoUiState(
+                    isLoading: uiState.isLoading,
+                    query: uiState.query,
+                    videos: uiState.videos,
+                    errorMessage: uiState.errorMessage,
+                    showNotificationPermissionDialog: true
+                )
+            }
+        }
+    }
     
     public func search(
         query: String,
@@ -21,7 +38,9 @@ public class SearchViewModel: ObservableObject {
         limit: Int = 100
     ) {
         if query.isEmpty {
-            uiState = SearchVideoUiState()
+            uiState = SearchVideoUiState(
+                showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
+            )
             return
         }
         
@@ -29,7 +48,8 @@ public class SearchViewModel: ObservableObject {
             isLoading: true,
             query: query,
             videos: [],
-            errorMessage: nil
+            errorMessage: nil,
+            showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
         )
         
         Task {
@@ -45,7 +65,8 @@ public class SearchViewModel: ObservableObject {
                     isLoading: false,
                     query: query,
                     videos: videos,
-                    errorMessage: nil
+                    errorMessage: nil,
+                    showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
                 )
             } catch {
                 let errorMessage = "検索中にエラーが発生しました: \(error.localizedDescription)"
@@ -53,13 +74,34 @@ public class SearchViewModel: ObservableObject {
                     isLoading: false,
                     query: query,
                     videos: [],
-                    errorMessage: errorMessage
+                    errorMessage: errorMessage,
+                    showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
                 )
             }
         }
     }
     
     public func clearSearch() {
-        uiState = SearchVideoUiState()
+        uiState = SearchVideoUiState(
+            showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
+        )
+    }
+    
+    /**
+     * 通知の権限をリクエスト済みの状態に更新する
+     * uiStateのダイアログ表示フラグもfalseにする
+     */
+    public func updateNotificationPermissionRequested() {
+        Task {
+            updateNotificationPermissionRequestedUseCase.invoke()
+            
+            uiState = SearchVideoUiState(
+                isLoading: uiState.isLoading,
+                query: uiState.query,
+                videos: uiState.videos,
+                errorMessage: uiState.errorMessage,
+                showNotificationPermissionDialog: false
+            )
+        }
     }
 }
