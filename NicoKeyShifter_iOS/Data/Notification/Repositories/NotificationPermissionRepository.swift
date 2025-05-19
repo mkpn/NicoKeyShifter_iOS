@@ -16,7 +16,7 @@ public extension Container {
 public protocol NotificationPermissionRepository {
     func hasNotificationPermission() async -> Bool
     func updateNotificationPermissionRequested()
-    func isNotificationPermissionRequested() -> Bool
+    func isNotificationPermissionRequested() async -> Bool
 }
 
 public final class NotificationPermissionRepositoryImpl: NotificationPermissionRepository {
@@ -35,7 +35,9 @@ public final class NotificationPermissionRepositoryImpl: NotificationPermissionR
         notificationPermissionDao.setNotificationPermissionRequested()
     }
     
-    public func isNotificationPermissionRequested() -> Bool {
-        return notificationPermissionDao.isNotificationPermissionRequested()
+    public func isNotificationPermissionRequested() async -> Bool {
+        let status = await notificationPermissionDao.getNotificationPermissionStatus()
+        // notDeterminedじゃなければ過去にリクエスト実績ありとして扱う
+        return status != .notDetermined
     }
 }
