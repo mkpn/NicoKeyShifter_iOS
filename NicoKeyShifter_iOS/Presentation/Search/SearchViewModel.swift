@@ -10,13 +10,18 @@ import SwiftUI
 public class SearchViewModel: ObservableObject {
     @Injected(\.searchVideoUseCase) private var searchVideoUseCase
     @Injected(\.checkNotificationPermissionRequestedUseCase) private var checkNotificationPermissionRequestedUseCase
-    @Injected(\.updateNotificationPermissionRequestedUseCase) private var updateNotificationPermissionRequestedUseCase
-    
+    @Injected(\.getTrackingAuthorizationStatusUseCase) private var getTrackingAuthorizationStatusUseCase
+
     @Published private(set) var uiState = SearchVideoUiState()
-    
+
     public init() {
         Task {
-            let isNotificationPermissionRequested = checkNotificationPermissionRequestedUseCase.invoke()
+            let isNotificationPermissionRequested = await checkNotificationPermissionRequestedUseCase.invoke()
+            print("通知許可リクエスト状態: \(isNotificationPermissionRequested)")
+            
+            let isATTAuthorizationRequested = await getTrackingAuthorizationStatusUseCase.invoke()
+            print("トラッキング許可リクエスト状態: \(isATTAuthorizationRequested)")
+
             
             if !isNotificationPermissionRequested {
                 uiState = SearchVideoUiState(
@@ -92,8 +97,6 @@ public class SearchViewModel: ObservableObject {
      */
     public func updateNotificationPermissionRequested() {
         Task {
-            updateNotificationPermissionRequestedUseCase.invoke()
-            
             uiState = SearchVideoUiState(
                 isLoading: uiState.isLoading,
                 query: uiState.query,

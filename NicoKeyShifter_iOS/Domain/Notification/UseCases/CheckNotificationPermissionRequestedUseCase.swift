@@ -14,7 +14,7 @@ public extension Container {
 }
 
 public protocol CheckNotificationPermissionRequestedUseCase {
-    func invoke() -> Bool
+    func invoke() async -> Bool
 }
 
 public final class CheckNotificationPermissionRequestedUseCaseImpl: CheckNotificationPermissionRequestedUseCase {
@@ -24,7 +24,7 @@ public final class CheckNotificationPermissionRequestedUseCaseImpl: CheckNotific
         self.notificationPermissionRepository = notificationPermissionRepository
     }
     
-    public func invoke() -> Bool {
-        return notificationPermissionRepository.isNotificationPermissionRequested()
+    public func invoke() async -> Bool {
+        return await notificationPermissionRepository.isNotificationPermissionRequested()
     }
 }
