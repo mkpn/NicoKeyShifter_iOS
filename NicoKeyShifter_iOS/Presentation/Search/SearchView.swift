@@ -61,12 +61,15 @@ struct SearchView: View {
                  Spacer()
              }
              .navigationTitle("動画検索")
-             .onChange(of: viewModel.uiState.modalTarget) { modalTarget in
-                 print("modalTarget: \(modalTarget)")
-                 if modalTarget == .notification {
+             .onChange(of: viewModel.uiState) { newState in
+                 print("デバッグ newState: \(newState)")
+                 switch newState.modalTarget {
+                 case .notification:
                      requestNotificationPermission()
-                 } else if modalTarget == .att {
+                 case .att:
                      requestATTPermission()
+                 case .none:
+                     break
                  }
              }
          }
@@ -81,8 +84,10 @@ struct SearchView: View {
     }
 
     private func requestATTPermission() {
+        print("デバッグ なぜここが勝手に呼ばれるんですか")
         ATTrackingManager.requestTrackingAuthorization { status in
             DispatchQueue.main.async {
+                print("デバッグ なぜここが勝手に呼ばれるんですか2 \(status)")
                 viewModel.finishATTPermissionRequested()
             }
         }

@@ -12,16 +12,13 @@ public class SearchViewModel: ObservableObject {
     @Injected(\.checkNotificationPermissionRequestedUseCase) private var checkNotificationPermissionRequestedUseCase
     @Injected(\.getTrackingAuthorizationStatusUseCase) private var getTrackingAuthorizationStatusUseCase
 
-    @Published private(set) var uiState = SearchVideoUiState()
+    @Published var uiState = SearchVideoUiState()
 
     public init() {
         Task {
             let isNotificationPermissionRequested = await checkNotificationPermissionRequestedUseCase.invoke()
-            print("通知許可リクエスト状態: \(isNotificationPermissionRequested)")
-            
             let isATTAuthorizationRequested = await getTrackingAuthorizationStatusUseCase.invoke()
-            print("トラッキング許可リクエスト状態: \(isATTAuthorizationRequested)")
-        
+
             uiState = SearchVideoUiState(
                 isLoading: uiState.isLoading,
                 query: uiState.query,
@@ -52,15 +49,15 @@ public class SearchViewModel: ObservableObject {
                     limit: limit
                 )
                 
-                uiState = SearchVideoUiState(
+                uiState = uiState.copy(
                     isLoading: false,
                     query: query,
                     videos: videos,
-                    errorMessage: nil
+                    errorMessage: nil as String?
                 )
             } catch {
                 let errorMessage = "検索中にエラーが発生しました: \(error.localizedDescription)"
-                uiState = SearchVideoUiState(
+                uiState = uiState.copy(
                     isLoading: false,
                     query: query,
                     videos: [],
@@ -71,7 +68,7 @@ public class SearchViewModel: ObservableObject {
     }
     
     public func clearSearch() {
-        uiState = SearchVideoUiState()
+        uiState = uiState.copy(query: "", videos: [])
     }
     
     /**
@@ -79,11 +76,7 @@ public class SearchViewModel: ObservableObject {
      */
     public func finishNotificationPermissionRequested() {
         Task {
-            uiState = SearchVideoUiState(
-                isLoading: uiState.isLoading,
-                query: uiState.query,
-                videos: uiState.videos,
-                errorMessage: uiState.errorMessage,
+            uiState = uiState.copy(
                 isNotificationPermissionRequested: true
             )
         }
@@ -93,12 +86,9 @@ public class SearchViewModel: ObservableObject {
      * ATTの権限について、uiStateのリクエスト済みフラグをtrueにする
      */
     public func finishATTPermissionRequested() {
+        print("finishATTPermissionRequested ")
         Task {
-            uiState = SearchVideoUiState(
-                isLoading: uiState.isLoading,
-                query: uiState.query,
-                videos: uiState.videos,
-                errorMessage: uiState.errorMessage,
+            uiState = uiState.copy(
                 isATTPermissionRequested: true
             )
         }

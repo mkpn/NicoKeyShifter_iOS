@@ -4,7 +4,8 @@
 
 import Foundation
 
-public struct SearchVideoUiState {
+public struct SearchVideoUiState: Equatable {
+    
     public let isLoading: Bool
     public let query: String
     public let videos: [VideoDomainModel]
@@ -17,9 +18,10 @@ public struct SearchVideoUiState {
         query: String = "",
         videos: [VideoDomainModel] = [],
         errorMessage: String? = nil,
-        isNotificationPermissionRequested: Bool = false,
-        isATTPermissionRequested: Bool = false
+        isNotificationPermissionRequested: Bool = true,
+        isATTPermissionRequested: Bool = true
     ) {
+        print("uiState init")
         self.isLoading = isLoading
         self.query = query
         self.videos = videos
@@ -53,6 +55,26 @@ public struct SearchVideoUiState {
     public var isSuccess: Bool {
         !isLoading && !query.isEmpty && errorMessage == nil
     }
+
+    public func copy(
+        isLoading: Bool? = nil,
+        query: String? = nil,
+        videos: [VideoDomainModel]? = nil,
+        errorMessage: String?? = nil,
+        isNotificationPermissionRequested: Bool? = nil,
+        isATTPermissionRequested: Bool? = nil
+    ) -> SearchVideoUiState {
+        print("uiState copy : \(isATTPermissionRequested)")
+        return SearchVideoUiState(
+            isLoading: isLoading ?? self.isLoading,
+            query: query ?? self.query,
+            videos: videos ?? self.videos,
+            errorMessage: errorMessage ?? self.errorMessage,
+            isNotificationPermissionRequested: isNotificationPermissionRequested ?? self.isNotificationPermissionRequested,
+            isATTPermissionRequested: isATTPermissionRequested ?? self.isATTPermissionRequested
+        )
+    }
+
     
     public static func ofDefault() -> SearchVideoUiState {
         SearchVideoUiState(
