@@ -9,22 +9,35 @@ public struct SearchVideoUiState {
     public let query: String
     public let videos: [VideoDomainModel]
     public let errorMessage: String?
-    public let showNotificationPermissionDialog: Bool
-    
+    public let isNotificationPermissionRequested: Bool
+    public let isATTPermissionRequested: Bool
+
     public init(
         isLoading: Bool = false,
         query: String = "",
         videos: [VideoDomainModel] = [],
         errorMessage: String? = nil,
-        showNotificationPermissionDialog: Bool = false
+        isNotificationPermissionRequested: Bool = false,
+        isATTPermissionRequested: Bool = false
     ) {
         self.isLoading = isLoading
         self.query = query
         self.videos = videos
         self.errorMessage = errorMessage
-        self.showNotificationPermissionDialog = showNotificationPermissionDialog
+        self.isNotificationPermissionRequested = isNotificationPermissionRequested
+        self.isATTPermissionRequested = isATTPermissionRequested
     }
-    
+
+    public var modalTarget: ModalTarget {
+        if !isNotificationPermissionRequested {
+            return .notification
+        }
+        if !isATTPermissionRequested {
+            return .att
+        }
+        return .none
+    }
+
     public var isEmpty: Bool {
         !isLoading && !query.isEmpty && videos.isEmpty && errorMessage == nil
     }
@@ -46,7 +59,8 @@ public struct SearchVideoUiState {
             isLoading: false,
             videos: [VideoDomainModel.ofDefault()],
             errorMessage: nil,
-            showNotificationPermissionDialog: false
+            isNotificationPermissionRequested: false,
+            isATTPermissionRequested: false
         )
     }
 }

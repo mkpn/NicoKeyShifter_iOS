@@ -21,17 +21,15 @@ public class SearchViewModel: ObservableObject {
             
             let isATTAuthorizationRequested = await getTrackingAuthorizationStatusUseCase.invoke()
             print("トラッキング許可リクエスト状態: \(isATTAuthorizationRequested)")
-
-            
-            if !isNotificationPermissionRequested {
-                uiState = SearchVideoUiState(
-                    isLoading: uiState.isLoading,
-                    query: uiState.query,
-                    videos: uiState.videos,
-                    errorMessage: uiState.errorMessage,
-                    showNotificationPermissionDialog: true
-                )
-            }
+        
+            uiState = SearchVideoUiState(
+                isLoading: uiState.isLoading,
+                query: uiState.query,
+                videos: uiState.videos,
+                errorMessage: uiState.errorMessage,
+                isNotificationPermissionRequested: isNotificationPermissionRequested,
+                isATTPermissionRequested: isATTAuthorizationRequested
+            )
         }
     }
     
@@ -42,19 +40,8 @@ public class SearchViewModel: ObservableObject {
         limit: Int = 100
     ) {
         if query.isEmpty {
-            uiState = SearchVideoUiState(
-                showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
-            )
             return
         }
-        
-        uiState = SearchVideoUiState(
-            isLoading: true,
-            query: query,
-            videos: [],
-            errorMessage: nil,
-            showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
-        )
         
         Task {
             do {
@@ -69,8 +56,7 @@ public class SearchViewModel: ObservableObject {
                     isLoading: false,
                     query: query,
                     videos: videos,
-                    errorMessage: nil,
-                    showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
+                    errorMessage: nil
                 )
             } catch {
                 let errorMessage = "検索中にエラーが発生しました: \(error.localizedDescription)"
@@ -78,31 +64,42 @@ public class SearchViewModel: ObservableObject {
                     isLoading: false,
                     query: query,
                     videos: [],
-                    errorMessage: errorMessage,
-                    showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
+                    errorMessage: errorMessage
                 )
             }
         }
     }
     
     public func clearSearch() {
-        uiState = SearchVideoUiState(
-            showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
-        )
+        uiState = SearchVideoUiState()
     }
     
     /**
-     * 通知の権限をリクエスト済みの状態に更新する
-     * uiStateのダイアログ表示フラグもfalseにする
+     * 通知の権限について、uiStateのリクエスト済みフラグをtrueにする
      */
-    public func updateNotificationPermissionRequested() {
+    public func finishNotificationPermissionRequested() {
         Task {
             uiState = SearchVideoUiState(
                 isLoading: uiState.isLoading,
                 query: uiState.query,
                 videos: uiState.videos,
                 errorMessage: uiState.errorMessage,
-                showNotificationPermissionDialog: false
+                isNotificationPermissionRequested: true
+            )
+        }
+    }
+
+    /**
+     * ATTの権限について、uiStateのリクエスト済みフラグをtrueにする
+     */
+    public func finishATTPermissionRequested() {
+        Task {
+            uiState = SearchVideoUiState(
+                isLoading: uiState.isLoading,
+                query: uiState.query,
+                videos: uiState.videos,
+                errorMessage: uiState.errorMessage,
+                isATTPermissionRequested: true
             )
         }
     }

@@ -14,17 +14,18 @@ public extension Container {
 }
 
 public protocol TrackingPermissionRepository {
-    func getTrackingAuthorizationStatus() async -> TrackingPermissionStatus
+    func isTrackingAuthorizationRequested() async -> Bool
 }
 
 public final class TrackingPermissionRepositoryImpl: TrackingPermissionRepository {
+    
     private let trackingPermissionDao: TrackingPermissionDao
     
     public init(trackingPermissionDao: TrackingPermissionDao) {
         self.trackingPermissionDao = trackingPermissionDao
     }
     
-    public func getTrackingAuthorizationStatus() async -> TrackingPermissionStatus {
-        return await trackingPermissionDao.getTrackingPermissionStatus()
+    public func isTrackingAuthorizationRequested() async -> Bool {
+        return await trackingPermissionDao.getTrackingPermissionStatus() != .notDetermined
     }
 }
