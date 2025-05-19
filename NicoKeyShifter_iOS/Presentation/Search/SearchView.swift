@@ -9,7 +9,6 @@ import UserNotifications
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
     @State private var searchQuery = ""
-//    @State private var isShowingNotificationPermissionAlert = false
 
     var body: some View {
          NavigationView {
