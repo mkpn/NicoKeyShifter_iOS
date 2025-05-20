@@ -2,7 +2,7 @@
 //  NicoKeyShifter_iOSUITestsLaunchTests.swift
 //  NicoKeyShifter_iOSUITests
 //
-//  Created by 吉田誠 on 2025/05/06.
+//  Created by mkpn on 2025/05/06.
 //
 
 import XCTest

@@ -5,6 +5,7 @@
 import SwiftUI
 import Factory
 import UserNotifications
+import AppTrackingTransparency
 
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
@@ -60,9 +61,15 @@ struct SearchView: View {
                  Spacer()
              }
              .navigationTitle("動画検索")
-             .onChange(of: viewModel.uiState.showNotificationPermissionDialog) { newValue in
-                 if newValue {
+             .onChange(of: viewModel.uiState) { newState in
+                 print("デバッグ newState: \(newState)")
+                 switch newState.modalTarget {
+                 case .notification:
                      requestNotificationPermission()
+                 case .att:
+                     requestATTPermission()
+                 case .none:
+                     break
                  }
              }
          }
@@ -71,7 +78,17 @@ struct SearchView: View {
     private func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             DispatchQueue.main.async {
-                viewModel.updateNotificationPermissionRequested()
+                viewModel.finishNotificationPermissionRequested()
+            }
+        }
+    }
+
+    private func requestATTPermission() {
+        print("デバッグ なぜここが勝手に呼ばれるんですか")
+        ATTrackingManager.requestTrackingAuthorization { status in
+            DispatchQueue.main.async {
+                print("デバッグ なぜここが勝手に呼ばれるんですか2 \(status)")
+                viewModel.finishATTPermissionRequested()
             }
         }
     }

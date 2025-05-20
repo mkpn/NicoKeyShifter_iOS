@@ -15,12 +15,11 @@ public extension Container {
 }
 
 public protocol TrackingPermissionDao {
-    func getTrackingPermissionStatus() async -> TrackingPermissionStatus
+    func getTrackingPermissionStatus() async -> ATTrackingManager.AuthorizationStatus
 }
 
-class TrackingPermissionDaoImpl: TrackingPermissionDao, Sendable {
-    public func getTrackingPermissionStatus() async -> TrackingPermissionStatus {
-        let status = ATTrackingManager.trackingAuthorizationStatus
-        return TrackingPermissionStatus.fromATTrackingManagerAuthorizationStatus(status)
+class TrackingPermissionDaoImpl: TrackingPermissionDao {
+    public func getTrackingPermissionStatus() async -> ATTrackingManager.AuthorizationStatus {
+        return ATTrackingManager.trackingAuthorizationStatus
     }
 }
