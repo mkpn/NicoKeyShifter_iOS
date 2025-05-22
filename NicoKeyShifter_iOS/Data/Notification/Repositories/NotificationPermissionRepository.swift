@@ -6,7 +6,7 @@ import Foundation
 import Factory
 
 public extension Container {
-    var notificationPermissionRepository: Factory<NotificationPermissionRepository & Sendable> {
+    var notificationPermissionRepository: Factory<NotificationPermissionRepository> {
         self {
             NotificationPermissionRepositoryImpl(notificationPermissionDao: self.notificationPermissionDao())
         }
@@ -20,7 +20,7 @@ public protocol NotificationPermissionRepository {
 }
 
 public final class NotificationPermissionRepositoryImpl: NotificationPermissionRepository {
-    private let notificationPermissionDao: NotificationPermissionDao
+    @Injected(\.notificationPermissionDao) var notificationPermissionDao
     
     public init(notificationPermissionDao: NotificationPermissionDao) {
         self.notificationPermissionDao = notificationPermissionDao

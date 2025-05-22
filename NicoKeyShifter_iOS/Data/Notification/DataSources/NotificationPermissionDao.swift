@@ -7,7 +7,7 @@ import UserNotifications
 import Factory
 
 public extension Container {
-    var notificationPermissionDao: Factory<NotificationPermissionDao & Sendable> {
+    var notificationPermissionDao: Factory<NotificationPermissionDao> {
         self {
             NotificationPermissionDaoImpl()
         }
