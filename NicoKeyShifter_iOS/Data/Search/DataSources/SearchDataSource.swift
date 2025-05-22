@@ -10,7 +10,7 @@ import Alamofire
 import Factory
 
 public extension Container {
-    var searchDataSource: Factory<SearchDataSource & Sendable> {
+    var searchDataSource: Factory<SearchDataSource> {
         self {
             SearchDataSourceImpl()
         }

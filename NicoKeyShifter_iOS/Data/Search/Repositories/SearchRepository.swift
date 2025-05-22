@@ -2,7 +2,7 @@ import Foundation
 import Factory
 
 public extension Container {
-    var searchRepository: Factory<SearchRepository & Sendable> {
+    var searchRepository: Factory<SearchRepository> {
         self {
             SearchRepositoryImpl(dataSource: self.searchDataSource())
         }
@@ -14,13 +14,13 @@ public protocol SearchRepository {
 }
 
 public final class SearchRepositoryImpl: SearchRepository {
-    private let dataSource: SearchDataSource
+    @Injected(\.searchDataSource) private var searchDataSource
     
     public init(dataSource: SearchDataSource) {
-        self.dataSource = dataSource
+        self.searchDataSource = dataSource
     }
-    
+
     public func search(query: String, targets: String = "title", sort: String = "-viewCounter", limit: Int = 100) async throws -> SearchResponse {
-        try await dataSource.search(query: query, targets: targets, sort: sort, limit: limit)
+        try await searchDataSource.search(query: query, targets: targets, sort: sort, limit: limit)
     }
 }  

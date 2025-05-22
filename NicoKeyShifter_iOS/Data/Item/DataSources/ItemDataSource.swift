@@ -3,7 +3,7 @@ import Factory
 import SwiftData
 
 public extension Container {
-    var itemDataSource: Factory<ItemDataSource & Sendable> {
+    var itemDataSource: Factory<ItemDataSource> {
         self {
             ItemDataSourceImpl()
         }
