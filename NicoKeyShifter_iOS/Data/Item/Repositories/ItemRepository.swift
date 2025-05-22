@@ -18,7 +18,7 @@ public protocol ItemRepository {
 }
 
 public final class ItemRepositoryImpl: ItemRepository {
-    @Injected(\.itemDataSource) var dataSource
+    @Injected(\.itemDataSource) private var dataSource
     
     public init(){}
     

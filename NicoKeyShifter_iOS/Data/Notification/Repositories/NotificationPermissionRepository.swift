@@ -20,7 +20,7 @@ public protocol NotificationPermissionRepository {
 }
 
 public final class NotificationPermissionRepositoryImpl: NotificationPermissionRepository {
-    @Injected(\.notificationPermissionDao) var notificationPermissionDao
+    @Injected(\.notificationPermissionDao) private var notificationPermissionDao
     
     public init(notificationPermissionDao: NotificationPermissionDao) {
         self.notificationPermissionDao = notificationPermissionDao
