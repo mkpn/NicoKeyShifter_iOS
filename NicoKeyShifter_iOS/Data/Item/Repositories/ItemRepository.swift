@@ -17,8 +17,8 @@ public protocol ItemRepository {
     func deleteAll() async
 }
 
-public final class ItemRepositoryImpl: ItemRepository, Sendable {
-    let dataSource = Container.shared.itemDataSource()
+public final class ItemRepositoryImpl: ItemRepository {
+    @Injected(\.itemDataSource) var dataSource
     
     public init(){}
     
