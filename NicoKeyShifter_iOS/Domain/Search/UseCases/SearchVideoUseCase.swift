@@ -9,7 +9,7 @@ import Data
 public extension Container {
     var searchVideoUseCase: Factory<SearchVideoUseCase & Sendable> {
         self {
-            SearchVideoUseCaseImpl(searchRepository: self.searchRepository())
+            SearchVideoUseCaseImpl()
         }
     }
 }
@@ -29,11 +29,7 @@ public protocol SearchVideoUseCase {
 }
 
 public final class SearchVideoUseCaseImpl: SearchVideoUseCase {
-    private let searchRepository: SearchRepository
-    
-    public init(searchRepository: SearchRepository) {
-        self.searchRepository = searchRepository
-    }
+    private let searchRepository = Container.shared.searchRepository()
     
     public func invoke(
         query: String,

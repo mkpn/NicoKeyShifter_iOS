@@ -5,7 +5,7 @@ import Data
 public extension Container {
     var checkIsFavoriteUseCase: Factory<CheckIsFavoriteUseCase & Sendable> {
         self {
-            CheckIsFavoriteUseCaseImpl(favoriteVideoRepository: self.favoriteVideoRepository())
+            CheckIsFavoriteUseCaseImpl()
         }
     }
 }
@@ -15,11 +15,7 @@ public protocol CheckIsFavoriteUseCase {
 }
 
 public final class CheckIsFavoriteUseCaseImpl: CheckIsFavoriteUseCase {
-    private let favoriteVideoRepository: FavoriteVideoRepository
-    
-    public init(favoriteVideoRepository: FavoriteVideoRepository) {
-        self.favoriteVideoRepository = favoriteVideoRepository
-    }
+    private let favoriteVideoRepository = Container.shared.favoriteVideoRepository()
     
     public func invoke(videoId: String) async -> Bool {
         return await favoriteVideoRepository.isFavorite(videoId)

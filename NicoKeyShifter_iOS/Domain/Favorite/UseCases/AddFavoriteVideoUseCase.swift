@@ -5,7 +5,7 @@ import Data
 public extension Container {
     var addFavoriteVideoUseCase: Factory<AddFavoriteVideoUseCase & Sendable> {
         self {
-            AddFavoriteVideoUseCaseImpl(favoriteVideoRepository: self.favoriteVideoRepository())
+            AddFavoriteVideoUseCaseImpl()
         }
     }
 }
@@ -15,14 +15,13 @@ public protocol AddFavoriteVideoUseCase {
 }
 
 public final class AddFavoriteVideoUseCaseImpl: AddFavoriteVideoUseCase {
-    private let favoriteVideoRepository: FavoriteVideoRepository
-    
-    public init(favoriteVideoRepository: FavoriteVideoRepository) {
-        self.favoriteVideoRepository = favoriteVideoRepository
-    }
+    private let favoriteVideoRepository = Container.shared.favoriteVideoRepository()
     
     public func invoke(favoriteVideo: FavoriteVideoDomainModel) async {
-        let entity = FavoriteVideoMapper.toEntity(domainModel: favoriteVideo)
-        await favoriteVideoRepository.add(entity)
+        await favoriteVideoRepository.add(
+            .init(videoId: favoriteVideo.videoId,
+                  title: favoriteVideo.title,
+                  thumbnailUrl: favoriteVideo.thumbnailUrl)
+        )
     }
 }

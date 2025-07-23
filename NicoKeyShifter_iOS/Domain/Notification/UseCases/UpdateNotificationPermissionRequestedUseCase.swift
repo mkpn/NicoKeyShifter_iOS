@@ -19,11 +19,7 @@ public protocol UpdateNotificationPermissionRequestedUseCase {
 }
 
 public final class UpdateNotificationPermissionRequestedUseCaseImpl: UpdateNotificationPermissionRequestedUseCase {
-    private let notificationPermissionRepository: NotificationPermissionRepository
-    
-    public init(notificationPermissionRepository: NotificationPermissionRepository) {
-        self.notificationPermissionRepository = notificationPermissionRepository
-    }
+    private let notificationPermissionRepository = Container.shared.notificationPermissionRepository()
     
     public func invoke() {
         notificationPermissionRepository.updateNotificationPermissionRequested()

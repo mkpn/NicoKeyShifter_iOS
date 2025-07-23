@@ -9,7 +9,7 @@ import Data
 public extension Container {
     var checkNotificationPermissionUseCase: Factory<CheckNotificationPermissionUseCase & Sendable> {
         self {
-            CheckNotificationPermissionUseCaseImpl(notificationPermissionRepository: self.notificationPermissionRepository())
+            CheckNotificationPermissionUseCaseImpl()
         }
     }
 }
@@ -19,11 +19,7 @@ public protocol CheckNotificationPermissionUseCase {
 }
 
 public final class CheckNotificationPermissionUseCaseImpl: CheckNotificationPermissionUseCase {
-    private let notificationPermissionRepository: NotificationPermissionRepository
-    
-    public init(notificationPermissionRepository: NotificationPermissionRepository) {
-        self.notificationPermissionRepository = notificationPermissionRepository
-    }
+    private let notificationPermissionRepository = Container.shared.notificationPermissionRepository()
     
     public func invoke() async -> Bool {
         return await notificationPermissionRepository.hasNotificationPermission()

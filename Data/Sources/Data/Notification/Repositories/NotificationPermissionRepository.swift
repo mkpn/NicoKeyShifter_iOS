@@ -8,7 +8,7 @@ import Factory
 public extension Container {
     var notificationPermissionRepository: Factory<NotificationPermissionRepository> {
         self {
-            NotificationPermissionRepositoryImpl(notificationPermissionDao: self.notificationPermissionDao())
+            NotificationPermissionRepositoryImpl()
         }
     }
 }

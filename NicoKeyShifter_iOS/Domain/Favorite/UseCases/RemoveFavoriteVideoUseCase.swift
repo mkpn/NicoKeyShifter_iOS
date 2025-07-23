@@ -5,7 +5,7 @@ import Data
 public extension Container {
     var removeFavoriteVideoUseCase: Factory<RemoveFavoriteVideoUseCase & Sendable> {
         self {
-            RemoveFavoriteVideoUseCaseImpl(favoriteVideoRepository: self.favoriteVideoRepository())
+            RemoveFavoriteVideoUseCaseImpl()
         }
     }
 }
@@ -15,14 +15,13 @@ public protocol RemoveFavoriteVideoUseCase {
 }
 
 public final class RemoveFavoriteVideoUseCaseImpl: RemoveFavoriteVideoUseCase {
-    private let favoriteVideoRepository: FavoriteVideoRepository
-    
-    public init(favoriteVideoRepository: FavoriteVideoRepository) {
-        self.favoriteVideoRepository = favoriteVideoRepository
-    }
+    private let favoriteVideoRepository = Container.shared.favoriteVideoRepository()
     
     public func invoke(favoriteVideo: FavoriteVideoDomainModel) async {
-        let entity = FavoriteVideoMapper.toEntity(domainModel: favoriteVideo)
-        await favoriteVideoRepository.delete(entity)
+        await favoriteVideoRepository.delete(
+            .init(videoId: favoriteVideo.videoId,
+                  title: favoriteVideo.title,
+                  thumbnailUrl: favoriteVideo.thumbnailUrl)
+        )
     }
 }

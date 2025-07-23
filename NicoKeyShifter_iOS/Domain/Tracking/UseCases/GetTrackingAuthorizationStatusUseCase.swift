@@ -4,11 +4,12 @@
 
 import Foundation
 import Factory
+import Data
 
 public extension Container {
     var getTrackingAuthorizationStatusUseCase: Factory<GetTrackingAuthorizationStatusUseCase & Sendable> {
         self {
-            GetTrackingAuthorizationStatusUseCaseImpl(trackingPermissionRepository: self.trackingPermissionRepository())
+            GetTrackingAuthorizationStatusUseCaseImpl()
         }
     }
 }
@@ -18,11 +19,7 @@ public protocol GetTrackingAuthorizationStatusUseCase {
 }
 
 public final class GetTrackingAuthorizationStatusUseCaseImpl: GetTrackingAuthorizationStatusUseCase {
-    private let trackingPermissionRepository: TrackingPermissionRepository
-    
-    public init(trackingPermissionRepository: TrackingPermissionRepository) {
-        self.trackingPermissionRepository = trackingPermissionRepository
-    }
+    private let trackingPermissionRepository: TrackingPermissionRepository = Container.shared.trackingPermissionRepository()
     
     public func invoke() async -> TrackingPermissionStatus {
         return await trackingPermissionRepository.getTrackingAuthorizationStatus()
