@@ -4,6 +4,7 @@
 
 import Foundation
 import Factory
+import Data
 
 public extension Container {
     var updateNotificationPermissionRequestedUseCase: Factory<UpdateNotificationPermissionRequestedUseCase & Sendable> {

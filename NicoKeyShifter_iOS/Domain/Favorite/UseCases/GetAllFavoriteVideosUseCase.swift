@@ -1,5 +1,6 @@
 import Foundation
 import Factory
+import Data
 
 public extension Container {
     var getAllFavoriteVideosUseCase: Factory<GetAllFavoriteVideosUseCase & Sendable> {

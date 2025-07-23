@@ -1,5 +1,5 @@
 {
-  "originHash" : "561c2da41d0adb3bdf1dc4a70a14745352b9b28283e05809b933dc64efaa2bc4",
+  "originHash" : "d1c243eb6548389b45eba498c9c33974dab13ddef4a8160fedb6cb270c1b3a6c",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hmlongco/Factory",
       "state" : {
-        "revision" : "98e965ba52769132a298769894f9741f8c291509",
-        "version" : "2.4.11"
+        "revision" : "56129530a97d89d03f610685d348d333af4989bb",
+        "version" : "2.5.2"
       }
     }
   ],

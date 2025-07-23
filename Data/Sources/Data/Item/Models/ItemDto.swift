@@ -1,8 +1,7 @@
 import Foundation
 import SwiftData
 
-@Model
-public final class Item {
+public struct ItemDto: Sendable {
     var timestamp: Date
     
     init(timestamp: Date) {

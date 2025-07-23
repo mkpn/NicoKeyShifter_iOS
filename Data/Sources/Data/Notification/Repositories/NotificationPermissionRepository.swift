@@ -20,11 +20,7 @@ public protocol NotificationPermissionRepository {
 }
 
 public final class NotificationPermissionRepositoryImpl: NotificationPermissionRepository {
-    @Injected(\.notificationPermissionDao) private var notificationPermissionDao
-    
-    public init(notificationPermissionDao: NotificationPermissionDao) {
-        self.notificationPermissionDao = notificationPermissionDao
-    }
+    private let notificationPermissionDao = Container.shared.notificationPermissionDao()
     
     public func hasNotificationPermission() async -> Bool {
         let status = await notificationPermissionDao.getNotificationPermissionStatus()

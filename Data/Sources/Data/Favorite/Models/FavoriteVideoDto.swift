@@ -1,8 +1,7 @@
 import Foundation
 import SwiftData
 
-@Model
-public final class FavoriteVideo {
+public struct FavoriteVideoDto: Sendable {
     var videoId: String
     var title: String
     var thumbnailUrl: String

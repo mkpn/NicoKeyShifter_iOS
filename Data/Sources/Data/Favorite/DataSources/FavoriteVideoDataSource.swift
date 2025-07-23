@@ -3,7 +3,7 @@ import Factory
 import SwiftData
 
 public extension Container {
-    var favoriteVideoDataSource: Factory<FavoriteVideoDataSource> {
+    var favoriteVideoDataSource: Factory<FavoriteVideoDataSource & Sendable> {
         self {
             FavoriteVideoDataSourceImpl()
         }

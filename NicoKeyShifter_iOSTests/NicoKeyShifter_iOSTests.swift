@@ -6,12 +6,15 @@
 //
 
 import Testing
+import Factory
 @testable import NicoKeyShifter_iOS
 
 struct NicoKeyShifter_iOSTests {
+//    @Injected(\.itemRepository) var itemRepository
 
     @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+//        let item = try await itemRepository.getAll()
+        #expect(0 == 0)
     }
 
 }
