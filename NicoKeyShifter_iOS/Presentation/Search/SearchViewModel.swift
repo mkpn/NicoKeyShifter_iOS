@@ -12,26 +12,21 @@ public class SearchViewModel: ObservableObject {
     @Injected(\.checkNotificationPermissionRequestedUseCase) private var checkNotificationPermissionRequestedUseCase
     @Injected(\.getTrackingAuthorizationStatusUseCase) private var getTrackingAuthorizationStatusUseCase
 
-    @Published private(set) var uiState = SearchVideoUiState()
+    @Published var uiState = SearchVideoUiState()
 
     public init() {
         Task {
             let isNotificationPermissionRequested = await checkNotificationPermissionRequestedUseCase.invoke()
-            print("通知許可リクエスト状態: \(isNotificationPermissionRequested)")
-            
             let isATTAuthorizationRequested = await getTrackingAuthorizationStatusUseCase.invoke()
-            print("トラッキング許可リクエスト状態: \(isATTAuthorizationRequested)")
 
-            
-            if !isNotificationPermissionRequested {
-                uiState = SearchVideoUiState(
-                    isLoading: uiState.isLoading,
-                    query: uiState.query,
-                    videos: uiState.videos,
-                    errorMessage: uiState.errorMessage,
-                    showNotificationPermissionDialog: true
-                )
-            }
+            uiState = SearchVideoUiState(
+                isLoading: uiState.isLoading,
+                query: uiState.query,
+                videos: uiState.videos,
+                errorMessage: uiState.errorMessage,
+                isNotificationPermissionRequested: isNotificationPermissionRequested,
+                isATTPermissionRequested: isATTAuthorizationRequested
+            )
         }
     }
     
@@ -42,19 +37,8 @@ public class SearchViewModel: ObservableObject {
         limit: Int = 100
     ) {
         if query.isEmpty {
-            uiState = SearchVideoUiState(
-                showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
-            )
             return
         }
-        
-        uiState = SearchVideoUiState(
-            isLoading: true,
-            query: query,
-            videos: [],
-            errorMessage: nil,
-            showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
-        )
         
         Task {
             do {
@@ -65,44 +49,47 @@ public class SearchViewModel: ObservableObject {
                     limit: limit
                 )
                 
-                uiState = SearchVideoUiState(
+                uiState = uiState.copy(
                     isLoading: false,
                     query: query,
                     videos: videos,
-                    errorMessage: nil,
-                    showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
+                    errorMessage: nil as String?
                 )
             } catch {
                 let errorMessage = "検索中にエラーが発生しました: \(error.localizedDescription)"
-                uiState = SearchVideoUiState(
+                uiState = uiState.copy(
                     isLoading: false,
                     query: query,
                     videos: [],
-                    errorMessage: errorMessage,
-                    showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
+                    errorMessage: errorMessage
                 )
             }
         }
     }
     
     public func clearSearch() {
-        uiState = SearchVideoUiState(
-            showNotificationPermissionDialog: uiState.showNotificationPermissionDialog
-        )
+        uiState = uiState.copy(query: "", videos: [])
     }
     
     /**
-     * 通知の権限をリクエスト済みの状態に更新する
-     * uiStateのダイアログ表示フラグもfalseにする
+     * 通知の権限について、uiStateのリクエスト済みフラグをtrueにする
      */
-    public func updateNotificationPermissionRequested() {
+    public func finishNotificationPermissionRequested() {
         Task {
-            uiState = SearchVideoUiState(
-                isLoading: uiState.isLoading,
-                query: uiState.query,
-                videos: uiState.videos,
-                errorMessage: uiState.errorMessage,
-                showNotificationPermissionDialog: false
+            uiState = uiState.copy(
+                isNotificationPermissionRequested: true
+            )
+        }
+    }
+
+    /**
+     * ATTの権限について、uiStateのリクエスト済みフラグをtrueにする
+     */
+    public func finishATTPermissionRequested() {
+        print("finishATTPermissionRequested ")
+        Task {
+            uiState = uiState.copy(
+                isATTPermissionRequested: true
             )
         }
     }

@@ -14,7 +14,7 @@ public extension Container {
 }
 
 public protocol GetTrackingAuthorizationStatusUseCase {
-    func invoke() async -> TrackingPermissionStatus
+    func invoke() async -> Bool
 }
 
 public final class GetTrackingAuthorizationStatusUseCaseImpl: GetTrackingAuthorizationStatusUseCase {
@@ -24,7 +24,7 @@ public final class GetTrackingAuthorizationStatusUseCaseImpl: GetTrackingAuthori
         self.trackingPermissionRepository = trackingPermissionRepository
     }
     
-    public func invoke() async -> TrackingPermissionStatus {
-        return await trackingPermissionRepository.getTrackingAuthorizationStatus()
+    public func invoke() async -> Bool {
+        return await trackingPermissionRepository.isTrackingAuthorizationRequested()
     }
 }

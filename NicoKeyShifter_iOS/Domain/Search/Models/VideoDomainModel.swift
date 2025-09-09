@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct VideoDomainModel {
+public struct VideoDomainModel: Equatable {
     public let id: String
     public let title: String
     public let viewCount: Int

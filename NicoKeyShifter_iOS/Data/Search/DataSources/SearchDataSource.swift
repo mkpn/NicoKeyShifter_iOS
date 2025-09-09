@@ -2,7 +2,7 @@
 //  SearchDataSource.swift
 //  NicoKeyShifter_iOS
 //
-//  Created by 吉田誠 on 2025/05/11.
+//  Created by mkpn on 2025/05/11.
 //
 
 import Foundation
